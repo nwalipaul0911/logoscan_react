@@ -25,50 +25,7 @@ const MyStory = () => {
     }
   };
   return (
-    <div style={{ height: "80vh", position: "relative", background: bg_img }}>
-      <Options />
-      <ul className="ms-1" style={{ position: "absolute" }}>
-        <li>
-          <i className="fa-solid fa-camera text-light btn btn-danger py-2 my-1"></i>
-        </li>
-        <li>
-          <i className="fa-solid fa-camera text-light btn btn-danger py-2 my-1"></i>
-        </li>
-      </ul>
-      <ul className="ms-1" style={{ position: "absolute", top: "50vh" }}>
-        <li>
-          <i className="fa-solid fa-share-nodes text-light"></i>
-        </li>
-        <li>
-          <i className="fa-solid fa-camera text-light"></i>
-        </li>
-        <li>
-          <i className="fa-solid fa-keyboard text-light"></i>
-        </li>
-        <li>
-          <i className="fa-solid fa-image text-light"></i>
-        </li>
-      </ul>
-      <div className="bg-light rounded brand-name-container">
-        <form onSubmit={(e) => formSubmit(e)}>
-          <input
-            type="file"
-            name="image"
-            className="rounded brand-name col-9"
-            placeholder="Brand-Name"
-          />
-          <button
-            type="submit"
-            className="text-light btn btn-secondary my-1 me-2"
-          >
-            <i className="fa-solid fa-floppy-disk"></i>
-          </button>
-          <button className="btn btn-danger text-light my-1 ">
-            <i className="fa-solid fa-camera"></i>
-          </button>
-        </form>
-      </div>
-    </div>
+    <></>
   );
 };
 
