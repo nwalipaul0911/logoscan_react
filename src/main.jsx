@@ -2,43 +2,41 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import Login from "./components/login";
-import Info from "./components/info";
-import MyStory from "./components/mystory";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import logoReducer from "./components/reducers/logoreducer";
-import resultReducer from "./components/reducers/resultreducer";
+import { configureStore } from "@reduxjs/toolkit";
+import Login from "./pages/login";
+import Home from "./pages/home";
+import ScanLogo from "./pages/scanlogo";
+import UploadLogo from "./pages/uploadLogo";
 
-const store = configureStore({
-  reducer: {
-    logo: logoReducer,
-    results: resultReducer,
-  },
-});
 
-const router = createBrowserRouter([
+const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <Login /> },
       {
-        path: "my-story",
-        element: <MyStory />,
+        index: true,
+        element: <Home />
       },
       {
-        path: "info",
-        element: <Info />,
+        path: 'login',
+        element: <Login />
       },
+      {
+        path: 'scanlogo',
+        element: <ScanLogo />
+      },
+      {
+        path: 'upload_logo',
+        element: <UploadLogo />
+      }
     ],
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <RouterProvider router={routes} />
   </React.StrictMode>
 );

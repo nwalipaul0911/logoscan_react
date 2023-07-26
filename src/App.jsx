@@ -1,14 +1,16 @@
 import React from "react";
-import Navbar from "./components/templates/navbar";
 import { Outlet } from "react-router-dom";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 function App() {
   return (
-    <>
+    <div style={{height: '100vh'}} className="position-relative">
       <Navbar />
-      <div className="container-fluid bg-danger">
+      <div className="container-fluid">
         <Outlet />
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 
