@@ -6,7 +6,7 @@ function App() {
   return (
     <div style={{height: '100vh'}} className="position-relative">
       <Navbar />
-      <div className="container-fluid">
+      <div className="mt-0">
         <Outlet />
       </div>
       <Footer />
