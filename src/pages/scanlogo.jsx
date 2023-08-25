@@ -126,7 +126,7 @@ const ScanLogo = () => {
       </div>
       <div className="container" style={{ height: "fit-content" }}>
         <div className="row g-0">
-          <div className="col">
+          <div className="col-md-6">
             <div
               className="position-relative view-container mx-auto bg-dark"
               ref={constrainRef}
@@ -148,7 +148,7 @@ const ScanLogo = () => {
               )}
             </div>
           </div>
-          <div className="mx-auto controls-container col">
+          <div className="mx-auto controls-container col-md-6">
             <div className="row">
               <div className="col">
                 <ul>
