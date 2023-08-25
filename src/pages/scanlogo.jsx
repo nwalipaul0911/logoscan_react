@@ -52,6 +52,7 @@ const ScanLogo = () => {
   };
   useEffect(() => {
     if (recordedChunks) {
+      console.log('working')
       let videoBlob = new Blob(recordedChunks, { type: "video/webm" });
       let videoUrl = URL.createObjectURL(videoBlob);
       setVideoSource(videoUrl);
@@ -88,7 +89,7 @@ const ScanLogo = () => {
       body: formData,
     });
     const data = await res.json();
-    console.log(data);
+    console.log(data)
   };
 
   return (
@@ -150,8 +151,8 @@ const ScanLogo = () => {
           </div>
           <div className="mx-auto controls-container col-md-6">
             <div className="row">
-              <div className="col">
-                <ul>
+              <div className="col-5 col-md-1">
+                <div className="row">
                   <button
                     className={`btn btn-${recording ? "info" : "success"}`}
                     onClick={() => scan()}
@@ -189,7 +190,7 @@ const ScanLogo = () => {
                   >
                     <i className="fa-solid fa-eye"></i>
                   </button>
-                </ul>
+                </div>
               </div>
               <div className="col-10">
                 <div className="row g-0">
