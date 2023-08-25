@@ -19,6 +19,7 @@ const ScanLogo = () => {
   const [axiss, setAxiss] = useState(false);
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
+  const [results, setResults] = useState([]);
   const mask_styles = {
     square: {
       padding: `${x}px`,
@@ -52,7 +53,7 @@ const ScanLogo = () => {
   };
   useEffect(() => {
     if (recordedChunks) {
-      console.log('working')
+      console.log("working");
       let videoBlob = new Blob(recordedChunks, { type: "video/webm" });
       let videoUrl = URL.createObjectURL(videoBlob);
       setVideoSource(videoUrl);
@@ -89,7 +90,8 @@ const ScanLogo = () => {
       body: formData,
     });
     const data = await res.json();
-    console.log(data)
+    setResults(data.message);
+    console.log(data.message)
   };
 
   return (
@@ -147,6 +149,19 @@ const ScanLogo = () => {
                   ></motion.i>
                 </>
               )}
+            </div>
+            <div className="container-fluid">
+              <div className="row">
+                {results.map((image, index) => (
+                  <div className="col-4">
+                    <img
+                      src={`${url}/image/${image}`}
+                      alt=""
+                      className="img-fluid"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="mx-auto controls-container col-md-6">
