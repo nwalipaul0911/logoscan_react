@@ -153,7 +153,7 @@ const ScanLogo = () => {
             <div className="container-fluid">
               <div className="row">
                 {results.map((image, index) => (
-                  <div className="col-4">
+                  <div key={index} className="col-4">
                     <img
                       src={`${url}/image/${image}`}
                       alt=""
