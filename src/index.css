@@ -48,3 +48,16 @@ div.selected-logo{
   height: 1.5rem;
   border-radius: 40%;
 }
+.footer{
+  background-color: rgb(239, 135, 135);
+  padding-top: 0.5rem;
+}
+.form-container{
+  display: grid;
+  place-items: center;
+}
+
+.form-control:focus{
+  box-shadow: none;
+}
+
