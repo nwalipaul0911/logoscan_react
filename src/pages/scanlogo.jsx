@@ -5,7 +5,6 @@ import placeholder from "../assets/placeholder.webp";
 import { motion, useAnimation } from "framer-motion";
 const ScanLogo = () => {
   const webcamRef = useRef(null);
-  const constrainRef = useRef(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recording, setRecording] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState(null);
@@ -17,10 +16,10 @@ const ScanLogo = () => {
   const [maskShape, setmaskShape] = useState("square");
   const [x, setX] = useState(50);
   const [y, setY] = useState(50);
-  const [axiss, setAxiss] = useState(false);
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
   const [results, setResults] = useState(null);
+  const constRef = useRef(null)
   const mask_styles = {
     square: {
       padding: `${x}px`,
@@ -54,11 +53,11 @@ const ScanLogo = () => {
   };
   useEffect(() => {
     if (recordedChunks) {
-      console.log("working");
+      console.log(constRef);
       let videoBlob = new Blob(recordedChunks, { type: "video/webm" });
       let videoUrl = URL.createObjectURL(videoBlob);
       setVideoSource(videoUrl);
-      sendFile();
+      // sendFile();
     }
   }, [recordedChunks]);
   const scan = () => {
@@ -131,10 +130,7 @@ const ScanLogo = () => {
       <div className="container" style={{ height: "fit-content" }}>
         <div className="row g-0">
           <div className="col-md-6">
-            <div
-              className="position-relative view-container mx-auto bg-dark"
-              ref={constrainRef}
-            >
+            <div className="position-relative view-container mx-auto bg-dark" ref={constRef}>
               {preview ? (
                 <video src={videoSource} controls></video>
               ) : (
@@ -142,7 +138,7 @@ const ScanLogo = () => {
                   <Webcam ref={webcamRef} />
                   <motion.i
                     drag
-                    dragConstraints={constrainRef}
+                    dragConstraints={constRef}
                     dragElastic={0}
                     dragMomentum={false}
                     className="mask fa-solid fa-plus axis-center"
@@ -262,11 +258,7 @@ const ScanLogo = () => {
                           value={x}
                           min={50}
                           max={130}
-                          onMouseDown={() => setAxiss(true)}
-                          onMouseUp={() => setAxiss(false)}
-                          onChange={(e) => {
-                            setX(e.target.value);
-                          }}
+                          onChange={(e) => setX(e.target.value)}
                         />
                       </div>
                     </div>
@@ -286,8 +278,6 @@ const ScanLogo = () => {
                               min={50}
                               max={130}
                               onChange={(e) => setY(e.target.value)}
-                              onMouseDown={() => setAxiss(true)}
-                              // onMouseUp={() => setAxiss(false)}
                             />
                           </div>
                         </>
