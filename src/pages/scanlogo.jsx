@@ -21,6 +21,7 @@ const ScanLogo = () => {
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
   const [results, setResults] = useState(null);
+  const [maxSize, setMaxSize] = useState(130);
   const mask_styles = {
     square: {
       padding: `${x}px`,
@@ -38,6 +39,35 @@ const ScanLogo = () => {
       minHeight: "100px",
       borderRadius: "50%",
     },
+  };
+  const handleDrag = (event, info) => {
+    const axisX = info.point.x;
+    const axisY = info.point.y;
+
+    if (axisX < x) {
+      setX(axisX);
+    } else if (axisX > maxSize) {
+      setX(maxSize);
+    }
+
+    if (axisY < y) {
+      setY(axisY);
+    } else if (axisY > maxSize) {
+      setY(maxSize);
+    }
+  };
+  const handleResize = (axis, newValue) => {
+    if (axis === "x") {
+      if (newValue > maxSize - x) {
+        newValue = maxSize - x;
+      }
+      setX(newValue);
+    } else if (axis === "y") {
+      if (newValue > maxSize - y) {
+        newValue = maxSize - y;
+      }
+      setY(newValue);
+    }
   };
 
   useEffect(() => {
@@ -128,7 +158,7 @@ const ScanLogo = () => {
           </li>
         </ul>
       </div>
-      <div className="container" style={{ height: "fit-content" }}>
+      <div className="container">
         <div className="row g-0">
           <div className="col-md-6">
             <div
@@ -136,17 +166,27 @@ const ScanLogo = () => {
               ref={constrainRef}
             >
               {preview ? (
-                <video src={videoSource} controls></video>
+                <video
+                  src={videoSource}
+                  className="view-container"
+                  ref={constrainRef}
+                  controls
+                ></video>
               ) : (
                 <>
-                  <Webcam ref={webcamRef} />
+                  <Webcam ref={webcamRef} style={{ width: "100%" }} />
                   <motion.i
                     drag
                     dragConstraints={constrainRef}
                     dragElastic={0}
                     dragMomentum={false}
+                    dragListeners={{ drag: handleDrag }} // Add drag listener
                     className="mask fa-solid fa-plus axis-center"
-                    style={mask_styles[maskShape]}
+                    style={{
+                      ...mask_styles[maskShape],
+                      width: maskShape === "square" ? `${x * 2}px` : "auto",
+                      height: maskShape === "square" ? `${x * 2}px` : "auto",
+                    }}
                   ></motion.i>
                 </>
               )}
@@ -261,11 +301,11 @@ const ScanLogo = () => {
                           className="col-6"
                           value={x}
                           min={50}
-                          max={130}
+                          max={maxSize}
                           onMouseDown={() => setAxiss(true)}
                           onMouseUp={() => setAxiss(false)}
                           onChange={(e) => {
-                            setX(e.target.value);
+                            handleResize("x", e.target.value); // Call handleResize
                           }}
                         />
                       </div>
@@ -284,8 +324,10 @@ const ScanLogo = () => {
                               className="col-6"
                               value={y}
                               min={50}
-                              max={130}
-                              onChange={(e) => setY(e.target.value)}
+                              max={maxSize}
+                              onChange={(e) => {
+                                handleResize("y", e.target.value); // Call handleResize
+                              }}
                               onMouseDown={() => setAxiss(true)}
                               // onMouseUp={() => setAxiss(false)}
                             />
