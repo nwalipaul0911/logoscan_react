@@ -3,8 +3,10 @@ import Webcam from "react-webcam";
 import "./scanlogo.css";
 import placeholder from "../assets/placeholder.webp";
 import { motion, useAnimation } from "framer-motion";
+import Mask from "../components/mask";
 const ScanLogo = () => {
   const webcamRef = useRef(null);
+  const constRef = useRef(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recording, setRecording] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState(null);
@@ -19,25 +21,7 @@ const ScanLogo = () => {
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
   const [results, setResults] = useState(null);
-  const constRef = useRef(null);
-  const mask_styles = {
-    square: {
-      padding: `${x}px`,
-      aspectRatio: 1 / 1,
-    },
-    circle: {
-      padding: `${x}px`,
-      borderRadius: "50%",
-      aspectRatio: 1 / 1,
-    },
-    ellipse: {
-      padding: `${y}px ${x}px`,
-      height: `${y}px`,
-      minpadding: "100px",
-      minHeight: "100px",
-      borderRadius: "50%",
-    },
-  };
+  
 
   useEffect(() => {
     getDropdownData();
@@ -139,14 +123,7 @@ const ScanLogo = () => {
               ) : (
                 <>
                   <Webcam ref={webcamRef} />
-                  <motion.i
-                    drag
-                    dragConstraints={constRef}
-                    dragElastic={0}
-                    dragMomentum={false}
-                    className="mask fa-solid fa-plus axis-center"
-                    style={mask_styles[maskShape]}
-                  ></motion.i>
+                  <Mask parentRef={constRef} maskShape={maskShape} x={x} y={y} />
                 </>
               )}
             </div>

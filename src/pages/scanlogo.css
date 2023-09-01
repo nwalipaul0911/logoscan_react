@@ -31,18 +31,6 @@ video {
     height: 70vh;
   }
 }
-.clip-default {
-  clip-path: none;
-}
-.clip-circle {
-  clip-path: circle(35% at 50% 50%);
-}
-.clip-square {
-  clip-path: polygon(25% 15%, 75% 15%, 75% 84%, 25% 84%);
-}
-.clip-elipse {
-  clip-path: ellipse(30% 45% at 50% 50%);
-}
 select#shapes {
   width: 20vw;
   color: rgb(67, 67, 67);
@@ -54,8 +42,8 @@ select#shapes {
 .mask {
   border: 3px dashed rgb(203, 203, 203);
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 25%;
+  left: 25%;
 }
 .mask:hover {
   cursor: pointer;
