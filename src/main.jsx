@@ -9,7 +9,13 @@ import Login from "./pages/login";
 import Home from "./pages/home";
 import ScanLogo from "./pages/scanlogo";
 import UploadLogo from "./pages/uploadLogo";
+import resultReducer from "./slices/resultSlice.js";
 
+const store = configureStore({
+  reducer: {
+    results: resultReducer,
+  },
+});
 
 const routes = createBrowserRouter([
   {
@@ -18,25 +24,27 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Home />,
       },
       {
-        path: 'login',
-        element: <Login />
+        path: "login",
+        element: <Login />,
       },
       {
-        path: 'scanlogo',
-        element: <ScanLogo />
+        path: "scanlogo",
+        element: <ScanLogo />,
       },
       {
-        path: 'upload_logo',
-        element: <UploadLogo />
-      }
+        path: "upload_logo",
+        element: <UploadLogo />,
+      },
     ],
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={routes} />
+    <Provider store={store}>
+      <RouterProvider router={routes} />
+    </Provider>
   </React.StrictMode>
 );

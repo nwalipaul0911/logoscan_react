@@ -4,6 +4,8 @@ import "./scanlogo.css";
 import placeholder from "../assets/placeholder.webp";
 import { motion, useAnimation } from "framer-motion";
 import Mask from "../components/mask";
+import { useSelector, useDispatch } from "react-redux";
+import { modify } from "../slices/resultSlice";
 const ScanLogo = () => {
   const webcamRef = useRef(null);
   const constRef = useRef(null);
@@ -20,12 +22,12 @@ const ScanLogo = () => {
   const [y, setY] = useState(50);
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
-  const [results, setResults] = useState(null);
-  
+  const results = useSelector((state) => state.results.value);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    getDropdownData();
-  }, []);
+  // useEffect(() => {
+  //   getDropdownData();
+  // }, []);
   const getDropdownData = async () => {
     let res = await fetch(`${url}/dropdown-menu-data`);
     if (res.status == 200) {
@@ -37,11 +39,10 @@ const ScanLogo = () => {
   };
   useEffect(() => {
     if (recordedChunks) {
-      console.log(constRef);
       let videoBlob = new Blob(recordedChunks, { type: "video/webm" });
       let videoUrl = URL.createObjectURL(videoBlob);
       setVideoSource(videoUrl);
-      // sendFile();
+      sendFile();
     }
   }, [recordedChunks]);
   const scan = () => {
@@ -69,13 +70,12 @@ const ScanLogo = () => {
   const sendFile = async () => {
     const formData = new FormData();
     formData.append("video", recordedChunks[0]);
-    const res = await fetch(`${url}/VideoUploadView/?video`, {
+    const res = await fetch(`${url}VideoUploadViewFrames/`, {
       method: "POST",
       body: formData,
     });
     const data = await res.json();
-    setResults(data.message);
-    console.log(data.message);
+    dispatch(modify(data.message));
   };
 
   return (
@@ -123,18 +123,23 @@ const ScanLogo = () => {
               ) : (
                 <>
                   <Webcam ref={webcamRef} />
-                  <Mask parentRef={constRef} maskShape={maskShape} x={x} y={y} />
+                  <Mask
+                    parentRef={constRef}
+                    maskShape={maskShape}
+                    x={x}
+                    y={y}
+                  />
                 </>
               )}
             </div>
           </div>
           <div className="mx-auto controls-container col-md-6">
             <div className="container-fluid">
-              <div className="row my-3">
+              <div className="d-flex my-3" style={{overflowX: 'scroll'}}>
                 {results?.map((image, index) => (
-                  <div key={index} className="col-4">
+                  <div key={index} className="col-4 mx-2">
                     <img
-                      src={`${url}/image/${image}`}
+                      src={`${url}image/${image}`}
                       alt=""
                       className="img-fluid rounded shadow"
                     />
