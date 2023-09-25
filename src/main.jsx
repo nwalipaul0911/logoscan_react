@@ -10,10 +10,12 @@ import Home from "./pages/home";
 import ScanLogo from "./pages/scanlogo";
 import UploadLogo from "./pages/uploadLogo";
 import resultReducer from "./slices/resultSlice.js";
+import chunkReducer from "./slices/chunkSLice.js";
 
 const store = configureStore({
   reducer: {
     results: resultReducer,
+    chunks: chunkReducer
   },
 });
 

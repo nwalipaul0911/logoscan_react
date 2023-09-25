@@ -6,12 +6,13 @@ import { motion, useAnimation } from "framer-motion";
 import Mask from "../components/mask";
 import { useSelector, useDispatch } from "react-redux";
 import { modify } from "../slices/resultSlice";
+import { modifyChunks } from "../slices/chunkSLice";
 const ScanLogo = () => {
   const webcamRef = useRef(null);
   const constRef = useRef(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recording, setRecording] = useState(false);
-  const [recordedChunks, setRecordedChunks] = useState(null);
+  const recordedChunks = useSelector((state)=>state.chunks.value);
   const [videoSource, setVideoSource] = useState(null);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -50,7 +51,7 @@ const ScanLogo = () => {
     const recorder = new MediaRecorder(mediaStream);
     recorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
-        setRecordedChunks([event.data]);
+        dispatch(modifyChunks([event.data]));
       }
     };
     setMediaRecorder(recorder);
