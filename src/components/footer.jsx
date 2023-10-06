@@ -6,22 +6,22 @@ const Footer = () => {
       <ul className="col-12 d-flex justify-content-evenly">
         <li className="nav-item ">
           <NavLink to="/" className="nav-link text-light">
-            <i className="fa-solid fa-home"></i>
+            Home <i className="fa-solid fa-home"></i>
           </NavLink>
         </li>
         <li className="nav-item ">
           <NavLink to="login" className="nav-link text-light">
-            <i className="fa-solid fa-right-from-bracket"></i>
+            Login <i className="fa-solid fa-right-to-bracket"></i>
           </NavLink>
         </li>
         <li className="nav-item ">
           <NavLink to="/admin_upload" className="nav-link text-light">
-            <i className="fa-solid fa-right-from-bracket"></i>
+            Admin <i className="fa-solid fa-lock"></i>
           </NavLink>
         </li>
         <li className="nav-item ">
           <NavLink to="scanlogo" className="nav-link text-light">
-            <i className="fa-solid fa-camera"></i>
+            Scan <i className="fa-solid fa-magnifying-glass"></i>
           </NavLink>
         </li>
       </ul>

@@ -3,7 +3,6 @@ import axios from "axios";
 
 const ReviewsPage = ({match}) => {
     const url = import.meta.env.VITE_BACKEND_API_URL;
-
     const [reviews, setReviews] = useState([])
     const imageId = match.params.imageId;
 

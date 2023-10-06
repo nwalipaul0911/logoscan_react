@@ -10,8 +10,9 @@ const Dropdown = ({ dropdown_name, query_params, control, value }) => {
           `${encodeURIComponent(key)}=${encodeURIComponent(query_params[key])}`
       )
       .join("&");
-
-    let res = await fetch(`${url}/dropdown-menu-data/?${queryString}`);
+      
+        
+    let res = await fetch(`${url}dropdown-menu-data/?${queryString}`);
     if (res.status == 200) {
       let dat = await res.json();
       setData([null, ...dat[dropdown_name]]);

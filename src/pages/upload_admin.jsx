@@ -1,10 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import "./scanlogo.css";
-import { motion, useAnimation } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { modify } from "../slices/resultSlice";
-import Dropdown from "../components/dropdown";
 const UploadAdmin = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
@@ -12,7 +9,6 @@ const UploadAdmin = () => {
   const [category, setCategory] = useState({});
   const [product, setProduct] = useState({});
   const [brand, setBrand] = useState({});
-  const dispatch = useDispatch();
   const [capturedImage, setCapturedImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const handleCurrentImage = (source) => {
@@ -62,35 +58,8 @@ const UploadAdmin = () => {
 
   return (
     <>
-      <div className="bg-danger">
-        <ul className="d-flex justify-content-evenly">
-          <li className="col-4">
-            <Dropdown
-              dropdown_name="categories"
-              query_params={{}}
-              control={setCategory}
-              value={category.category}
-            />
-          </li>
-          <li className="col-4">
-            <Dropdown
-              dropdown_name="products"
-              query_params={category}
-              control={setProduct}
-              value={product.product}
-            />
-          </li>
-          <li className="col-4">
-            <Dropdown
-              dropdown_name="brands"
-              query_params={product}
-              control={setBrand}
-              value={brand.brand}
-            />
-          </li>
-        </ul>
-      </div>
-      <div className="container">
+      
+      <div className="container mt-3">
         <div className="row">
           <div className="col-md-6">
             <Webcam
@@ -142,8 +111,9 @@ const UploadAdmin = () => {
                       id="category"
                       placeholder="Category"
                       className="form-control"
-                      onChange={e=>handleDropdown(e, setCategory)}
                       value={category?.category}
+                      onChange={e=>handleDropdown(e, setCategory)}
+                      
                     />
                   </div>
                   <div className="py-2">
@@ -153,8 +123,9 @@ const UploadAdmin = () => {
                       id="product"
                       placeholder="Product"
                       className="form-control"
-                      onChange={e=>handleDropdown(e, setProduct)}
                       value={product?.product}
+                      onChange={e=>handleDropdown(e, setProduct)}
+                      
                     />
                   </div>
                   <div className="py-2">
@@ -164,8 +135,8 @@ const UploadAdmin = () => {
                       id="brand"
                       placeholder="Brand"
                       className="form-control"
-                      onChange={e=>handleDropdown(e, setBrand)}
                       value={brand?.brand}
+                      onChange={e=>handleDropdown(e, setBrand)}
                     />
                   </div>
                   <div className="py-2">
