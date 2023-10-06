@@ -15,8 +15,8 @@ const Footer = () => {
           </NavLink>
         </li>
         <li className="nav-item ">
-          <NavLink to="upload_logo" className="nav-link text-light">
-            <i className="fa-solid fa-upload"></i>
+          <NavLink to="/admin_upload" className="nav-link text-light">
+            <i className="fa-solid fa-right-from-bracket"></i>
           </NavLink>
         </li>
         <li className="nav-item ">

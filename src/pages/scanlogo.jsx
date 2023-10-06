@@ -7,17 +7,19 @@ import Mask from "../components/mask";
 import { useSelector, useDispatch } from "react-redux";
 import { modify } from "../slices/resultSlice";
 import { modifyChunks } from "../slices/chunkSLice";
+import { Link } from "react-router-dom";
+import Dropdown from "../components/dropdown";
 const ScanLogo = () => {
+  const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
   const constRef = useRef(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recording, setRecording] = useState(false);
-  const recordedChunks = useSelector((state)=>state.chunks.value);
+  const recordedChunks = useSelector((state) => state.chunks.value);
   const [videoSource, setVideoSource] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [brands, setBrands] = useState([]);
-  const url = import.meta.env.VITE_BACKEND_API_URL;
+  const [category, setCategory] = useState({});
+  const [product, setProduct] = useState({});
+  const [brand, setBrand] = useState({});
   const [maskShape, setmaskShape] = useState("square");
   const [x, setX] = useState(50);
   const [y, setY] = useState(50);
@@ -26,18 +28,6 @@ const ScanLogo = () => {
   const results = useSelector((state) => state.results.value);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   getDropdownData();
-  // }, []);
-  const getDropdownData = async () => {
-    let res = await fetch(`${url}/dropdown-menu-data`);
-    if (res.status == 200) {
-      let data = await res.json();
-      setCategories(data.categories);
-      setProducts(data.products);
-      setBrands(data.brands);
-    }
-  };
   useEffect(() => {
     if (recordedChunks) {
       let videoBlob = new Blob(recordedChunks, { type: "video/webm" });
@@ -71,12 +61,16 @@ const ScanLogo = () => {
   const sendFile = async () => {
     const formData = new FormData();
     formData.append("video", recordedChunks[0]);
+    formData.append("category", category.category);
+    formData.append("product", product.product);
+    formData.append("brand", brand.brand);
     const res = await fetch(`${url}VideoUploadViewFrames/`, {
       method: "POST",
       body: formData,
     });
     const data = await res.json();
     dispatch(modify(data.message));
+    console.log(data.message);
   };
 
   return (
@@ -84,31 +78,28 @@ const ScanLogo = () => {
       <div className="bg-danger">
         <ul className="d-flex justify-content-evenly">
           <li className="col-4">
-            <select className="bg-danger col-12" defaultValue="Category">
-              {categories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+            <Dropdown
+              dropdown_name="categories"
+              query_params={{}}
+              control={setCategory}
+              value={category.category}
+            />
           </li>
           <li className="col-4">
-            <select className="bg-danger col-12" defaultValue="Products">
-              {products.map((product, index) => (
-                <option key={index} value={product}>
-                  {product}
-                </option>
-              ))}
-            </select>
+            <Dropdown
+              dropdown_name="products"
+              query_params={category}
+              control={setProduct}
+              value={product.product}
+            />
           </li>
           <li className="col-4">
-            <select className="bg-danger col-12" defaultValue="Brands">
-              {brands.map((brand, index) => (
-                <option key={index} value={brand}>
-                  {brand}
-                </option>
-              ))}
-            </select>
+            <Dropdown
+              dropdown_name="brands"
+              query_params={product}
+              control={setBrand}
+              value={brand.brand}
+            />
           </li>
         </ul>
       </div>
@@ -136,17 +127,17 @@ const ScanLogo = () => {
           </div>
           <div className="mx-auto controls-container col-md-6">
             <div className="container-fluid">
-              <div className="d-flex my-3" style={{overflowX: 'scroll'}}>
+              <div className="d-flex my-3" style={{ overflowX: "scroll" }}>
                 {results?.map((image, index) => (
-                  <div key={index} className="col-4 mx-2">
+                  <Link key={index} to={"/reviews"} className="col-4 mx-2">
                     <img
                       src={`${url}image/${image}`}
                       alt=""
                       className="img-fluid rounded shadow"
                     />
-                  </div>
+                  </Link>
                 ))}
-                {!results && (
+                {!results.length && (
                   <div className=" row my-3">
                     <div className="col-4">
                       <img

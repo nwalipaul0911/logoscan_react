@@ -8,9 +8,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import Login from "./pages/login";
 import Home from "./pages/home";
 import ScanLogo from "./pages/scanlogo";
-import UploadLogo from "./pages/uploadLogo";
+import Reviews from "./pages/reviews";
 import resultReducer from "./slices/resultSlice.js";
 import chunkReducer from "./slices/chunkSLice.js";
+import UploadAdmin from "./pages/upload_admin";
 
 const store = configureStore({
   reducer: {
@@ -37,8 +38,17 @@ const routes = createBrowserRouter([
         element: <ScanLogo />,
       },
       {
-        path: "upload_logo",
-        element: <UploadLogo />,
+        path: "admin_upload",
+        element: <UploadAdmin />,
+      },
+      {
+        path: "reviews/:id",
+        element: <Reviews />,
+        loader: async({params})=>{
+          let logo_id = params.id
+
+
+        }
       },
     ],
   },
