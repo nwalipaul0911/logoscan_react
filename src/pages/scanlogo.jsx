@@ -4,15 +4,11 @@ import "./scanlogo.css";
 import placeholder from "../assets/placeholder.webp";
 import { motion, useAnimation } from "framer-motion";
 import Mask from "../components/mask";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
 import { useSelector, useDispatch } from "react-redux";
 import { modify } from "../slices/resultSlice";
 import { modifyChunks } from "../slices/chunkSLice";
 import { Link } from "react-router-dom";
 import Dropdown from "../components/dropdown";
->>>>>>> e24f2fb51a22c67ff162fca1fd367b92620553ab
 const ScanLogo = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
@@ -29,18 +25,8 @@ const ScanLogo = () => {
   const [y, setY] = useState(50);
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
-<<<<<<< HEAD
-  const [results, setResults] = useState(null);
-
-  const navigate = useNavigate();
-
-  const handleLogoClick = (imageId) => {
-    navigate(`/reviews/${imageId}`);
-  };
-=======
   const results = useSelector((state) => state.results.value);
   const dispatch = useDispatch();
->>>>>>> e24f2fb51a22c67ff162fca1fd367b92620553ab
 
   useEffect(() => {
     if (recordedChunks) {
