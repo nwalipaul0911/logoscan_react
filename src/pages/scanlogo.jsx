@@ -4,6 +4,7 @@ import "./scanlogo.css";
 import placeholder from "../assets/placeholder.webp";
 import { motion, useAnimation } from "framer-motion";
 import Mask from "../components/mask";
+import { useNavigate } from "react-router-dom";
 const ScanLogo = () => {
   const webcamRef = useRef(null);
   const constRef = useRef(null);
@@ -21,7 +22,12 @@ const ScanLogo = () => {
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
   const [results, setResults] = useState(null);
-  
+
+  const navigate = useNavigate();
+
+  const handleLogoClick = (imageId) => {
+    navigate(`/reviews/${imageId}`);
+  };
 
   useEffect(() => {
     getDropdownData();
@@ -123,7 +129,12 @@ const ScanLogo = () => {
               ) : (
                 <>
                   <Webcam ref={webcamRef} />
-                  <Mask parentRef={constRef} maskShape={maskShape} x={x} y={y} />
+                  <Mask
+                    parentRef={constRef}
+                    maskShape={maskShape}
+                    x={x}
+                    y={y}
+                  />
                 </>
               )}
             </div>
@@ -136,6 +147,7 @@ const ScanLogo = () => {
                     <img
                       src={`${url}/image/${image}`}
                       alt=""
+                      onClick={handleLogoClick(image.imageId)}
                       className="img-fluid rounded shadow"
                     />
                   </div>
