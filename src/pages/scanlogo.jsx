@@ -133,7 +133,7 @@ const ScanLogo = () => {
                     <img
                       src={`${url}image/${image}`}
                       alt=""
-                      onClick={handleLogoClick(image.imageId)}
+                      // onClick={handleLogoClick(image.imageId)}
                       className="img-fluid rounded shadow"
                     />
                   </Link>
