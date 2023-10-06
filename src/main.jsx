@@ -31,7 +31,7 @@ const routes = createBrowserRouter([
                 path: 'upload_logo',
                 element: <UploadLogo/>
             }, {
-                path: 'reviews/:productId',
+                path: 'reviews/:imageId',
                 element: <ReviewsPage/>
             }
         ],
