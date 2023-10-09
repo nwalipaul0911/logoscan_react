@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const ReviewsPage = ({match}) => {
+const ReviewsPage = () => {
     const url = import.meta.env.VITE_BACKEND_API_URL;
     const [reviews, setReviews] = useState([])
-    const imageId = match.params.imageId;
+    const imageId = useParams().imageId;
 
     useEffect(() => {
         const ReviewsAPIUrls = `${url}/api/reviews/?image_id=${imageId}`

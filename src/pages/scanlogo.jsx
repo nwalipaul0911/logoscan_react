@@ -35,7 +35,7 @@ const ScanLogo = () => {
       setVideoSource(videoUrl);
       sendFile();
     }
-  }, [recordedChunks]);
+  }, [recordedChunks, category, product, brand]);
   const scan = () => {
     const mediaStream = webcamRef.current.stream;
     const recorder = new MediaRecorder(mediaStream);
@@ -129,7 +129,7 @@ const ScanLogo = () => {
             <div className="container-fluid">
               <div className="d-flex my-3" style={{ overflowX: "scroll" }}>
                 {results?.map((image, index) => (
-                  <Link key={index} to={"/reviews"} className="col-4 mx-2">
+                  <Link key={index} to={`/reviews/${image}`} className="col-4 mx-2">
                     <img
                       src={`${url}image/${image}`}
                       alt=""
