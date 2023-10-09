@@ -6,9 +6,9 @@ const UploadAdmin = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
   const fileInputRef = useRef(null);
-  const [category, setCategory] = useState({});
-  const [product, setProduct] = useState({});
-  const [brand, setBrand] = useState({});
+  const [category, setCategory] = useState('');
+  const [product, setProduct] = useState('');
+  const [brand, setBrand] = useState('');
   const [capturedImage, setCapturedImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const handleCurrentImage = (source) => {
@@ -41,7 +41,7 @@ const UploadAdmin = () => {
     formData.append("category", category?.category);
     formData.append("product", product?.product);
     formData.append("brand", brand?.brand);
-    const res = await fetch(`${url}admin-upload-image/`, {
+    const res = await fetch(`${url}logo-upload-image/`, {
       method: "POST",
       body: formData,
     });
@@ -51,9 +51,9 @@ const UploadAdmin = () => {
   const handleFileInput = () => {
     fileInputRef.current.click();
   };
-  const handleDropdown = (event, func)=>{
+  const handleForm = (event, func)=>{
     let {name, value} = event.target
-    func({[name]: value})
+    func(value)
   }
 
   return (
@@ -111,8 +111,8 @@ const UploadAdmin = () => {
                       id="category"
                       placeholder="Category"
                       className="form-control"
-                      value={category?.category}
-                      onChange={e=>handleDropdown(e, setCategory)}
+                      value={category}
+                      onChange={e=>handleForm(e, setCategory)}
                       
                     />
                   </div>
@@ -123,8 +123,8 @@ const UploadAdmin = () => {
                       id="product"
                       placeholder="Product"
                       className="form-control"
-                      value={product?.product}
-                      onChange={e=>handleDropdown(e, setProduct)}
+                      value={product}
+                      onChange={e=>handleForm(e, setProduct)}
                       
                     />
                   </div>
@@ -135,8 +135,8 @@ const UploadAdmin = () => {
                       id="brand"
                       placeholder="Brand"
                       className="form-control"
-                      value={brand?.brand}
-                      onChange={e=>handleDropdown(e, setBrand)}
+                      value={brand}
+                      onChange={e=>handleForm(e, setBrand)}
                     />
                   </div>
                   <div className="py-2">

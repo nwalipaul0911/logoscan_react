@@ -12,6 +12,7 @@ import Reviews from "./pages/reviews";
 import resultReducer from "./slices/resultSlice.js";
 import chunkReducer from "./slices/chunkSLice.js";
 import UploadAdmin from "./pages/upload_admin";
+import ReviewsPage from "./pages/ReviewsPage";
 
 const store = configureStore({
   reducer: {
@@ -43,12 +44,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "reviews/:id",
-        element: <Reviews />,
-        loader: async({params})=>{
-          let logo_id = params.id
-
-
-        }
+        element: <ReviewsPage />,
       },
     ],
   },
