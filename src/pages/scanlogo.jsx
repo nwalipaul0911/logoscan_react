@@ -70,7 +70,7 @@ const ScanLogo = () => {
     });
     const data = await res.json();
     dispatch(modify(data.message));
-    console.log(data.message);
+    console.log(data);
   };
 
   return (

@@ -6,38 +6,38 @@ const UploadAdmin = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
   const fileInputRef = useRef(null);
-  const [category, setCategory] = useState('');
-  const [product, setProduct] = useState('');
-  const [brand, setBrand] = useState('');
-  const [capturedImage, setCapturedImage] = useState(null);
+  const [category, setCategory] = useState("");
+  const [product, setProduct] = useState("");
+  const [brand, setBrand] = useState("");
+  const [imageData, setImageData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const handleCurrentImage = (source) => {
-    if (typeof source == "string") {
-      setCapturedImage(source);
-      setSelectedImage(source);
-      return;
-    } else {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageDataURL = e.target.result;
-        setSelectedImage(imageDataURL);
-      };
-      reader.readAsDataURL(source);
+  const [message, setMessage] = useState("");
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+      setImageData(file);
     }
   };
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot();
-    handleCurrentImage(imageSrc);
+    if (imageSrc) {
+      setSelectedImage(imageSrc);
+      // Convert data URL to Blob
+      fetch(imageSrc)
+        .then((res) => res.blob())
+        .then((blob) => setImageData(blob));
+    }
   };
   const clearCapture = () => {
-    setCapturedImage(null);
     setSelectedImage(null);
+    setImageData(null);
   };
 
   const sendFile = async () => {
     const formData = new FormData();
-    formData.append("image", capturedImage);
+    formData.append("image", imageData);
     formData.append("category", category?.category);
     formData.append("product", product?.product);
     formData.append("brand", brand?.brand);
@@ -45,21 +45,34 @@ const UploadAdmin = () => {
       method: "POST",
       body: formData,
     });
-    const data = await res.json();
-    console.log(data.message);
+    if (res.status == 200) {
+      const data = await res.json();
+      setMessage(data.message);
+    }
   };
   const handleFileInput = () => {
     fileInputRef.current.click();
   };
-  const handleForm = (event, func)=>{
-    let {name, value} = event.target
-    func(value)
-  }
+  const handleForm = (event, func) => {
+    let { name, value } = event.target;
+    func(value);
+  };
 
   return (
     <>
-      
       <div className="container mt-3">
+        {message && (
+          <div className="border rounded alert d-flex justify-content-between">
+            <div>
+              <p>{message}</p>
+            </div>
+            <div className="col-2 d-flex justify-content-evenly">
+              <button className="btn btn-sm btn-secondary" onClick={clearCapture}>Continue</button>
+              <button className="btn btn-sm btn-success" onClick={clearCapture}>Finish</button>
+            </div>
+          </div>
+        )}
+
         <div className="row">
           <div className="col-md-6">
             <Webcam
@@ -68,6 +81,7 @@ const UploadAdmin = () => {
               screenshotFormat="image/jpeg"
             />
           </div>
+
           <div className="col-md-6">
             <div className="container-fluid">
               <div className="row">
@@ -112,8 +126,7 @@ const UploadAdmin = () => {
                       placeholder="Category"
                       className="form-control"
                       value={category}
-                      onChange={e=>handleForm(e, setCategory)}
-                      
+                      onChange={(e) => handleForm(e, setCategory)}
                     />
                   </div>
                   <div className="py-2">
@@ -124,8 +137,7 @@ const UploadAdmin = () => {
                       placeholder="Product"
                       className="form-control"
                       value={product}
-                      onChange={e=>handleForm(e, setProduct)}
-                      
+                      onChange={(e) => handleForm(e, setProduct)}
                     />
                   </div>
                   <div className="py-2">
@@ -136,7 +148,7 @@ const UploadAdmin = () => {
                       placeholder="Brand"
                       className="form-control"
                       value={brand}
-                      onChange={e=>handleForm(e, setBrand)}
+                      onChange={(e) => handleForm(e, setBrand)}
                     />
                   </div>
                   <div className="py-2">
@@ -148,7 +160,7 @@ const UploadAdmin = () => {
                       placeholder="image"
                       className="form-control"
                       style={{ display: "none" }}
-                      onChange={(e) => handleCurrentImage(e.target.files[0])}
+                      onChange={(e) => handleFileChange(e)}
                     />
                   </div>
                 </div>
