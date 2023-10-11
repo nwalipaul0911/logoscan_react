@@ -9,6 +9,7 @@ const UploadAdmin = () => {
   const [category, setCategory] = useState("");
   const [product, setProduct] = useState("");
   const [brand, setBrand] = useState("");
+  const [selectedCam, setSelectedCam] = useState("user");
   const [imageData, setImageData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [message, setMessage] = useState("");
@@ -67,8 +68,15 @@ const UploadAdmin = () => {
               <p>{message}</p>
             </div>
             <div className="col-2 d-flex justify-content-evenly">
-              <button className="btn btn-sm btn-secondary" onClick={clearCapture}>Continue</button>
-              <button className="btn btn-sm btn-success" onClick={clearCapture}>Finish</button>
+              <button
+                className="btn btn-sm btn-secondary"
+                onClick={clearCapture}
+              >
+                Continue
+              </button>
+              <button className="btn btn-sm btn-success" onClick={clearCapture}>
+                Finish
+              </button>
             </div>
           </div>
         )}
@@ -79,6 +87,7 @@ const UploadAdmin = () => {
               audio={false}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
+              videoConstraints={{ facingMode: selectedCam }}
             />
           </div>
 
@@ -92,28 +101,39 @@ const UploadAdmin = () => {
                       onClick={capture}
                       title="Capture"
                     >
-                      Capture <i className="fa-solid mx-3 fa-camera"></i>
+                      <i className="fa-solid fa-camera"></i>
                     </button>
                     <button
                       className="btn btn-sm btn-dark"
                       onClick={handleFileInput}
                       title="Gallery"
                     >
-                      Gallery <i className="fa-solid mx-3 fa-image"></i>
+                      <i className="fa-solid fa-image"></i>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-dark me-3"
+                      onClick={() =>
+                        setSelectedCam(
+                          selectedCam == "user" ? "environment" : "user"
+                        )
+                      }
+                      title="Switch camera"
+                    >
+                      <i className="fa-solid fa-camera-rotate"></i>
                     </button>
                     <button
                       className="btn btn-sm btn-success"
                       onClick={sendFile}
                       title="Upload"
                     >
-                      Upload <i className="fa-solid fa-upload"></i>
+                      <i className="fa-solid fa-upload"></i>
                     </button>
                     <button
                       className="btn btn-sm btn-secondary"
                       title="Recapture"
                       onClick={clearCapture}
                     >
-                      Reset <i className="fa-solid mx-3 fa-arrows-rotate"></i>
+                      <i className="fa-solid fa-arrows-rotate"></i>
                     </button>
                   </div>
                 </div>

@@ -21,7 +21,7 @@ const ScanLogo = () => {
   const [product, setProduct] = useState({});
   const [brand, setBrand] = useState({});
   const [maskShape, setmaskShape] = useState("square");
-  const [selectedCam, setSelectedCam] = useState('user')
+  const [selectedCam, setSelectedCam] = useState("user");
   const [x, setX] = useState(50);
   const [y, setY] = useState(50);
   const [preview, setPreview] = useState(false);
@@ -114,7 +114,10 @@ const ScanLogo = () => {
                 <video src={videoSource} controls></video>
               ) : (
                 <>
-                  <Webcam ref={webcamRef} videoConstraints={{facingMode : selectedCam}}/>
+                  <Webcam
+                    ref={webcamRef}
+                    videoConstraints={{ facingMode: selectedCam }}
+                  />
                   <Mask
                     parentRef={constRef}
                     maskShape={maskShape}
