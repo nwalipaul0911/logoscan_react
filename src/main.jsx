@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import Login from "./pages/login";
 import Home from "./pages/home";
 import ScanLogo from "./pages/scanlogo";
-import Reviews from "./pages/reviews";
 import resultReducer from "./slices/resultSlice.js";
 import chunkReducer from "./slices/chunkSLice.js";
 import UploadAdmin from "./pages/upload_admin";

@@ -24,7 +24,7 @@ const Login = () => {
           />
         </div>
         <div className="py-3 col-12">
-          <input type="submit" value="Login" className="btn form-control" />
+          <input type="submit" value="Login" className="btn form-control btn-secondary" />
         </div>
       </form>
     </div>

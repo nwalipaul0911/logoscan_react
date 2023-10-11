@@ -9,6 +9,7 @@ import { modify } from "../slices/resultSlice";
 import { modifyChunks } from "../slices/chunkSLice";
 import { Link } from "react-router-dom";
 import Dropdown from "../components/dropdown";
+import CameraSwitch from "../components/cameraSwitch";
 const ScanLogo = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
@@ -70,7 +71,6 @@ const ScanLogo = () => {
     });
     const data = await res.json();
     dispatch(modify(data.message));
-    console.log(data);
   };
 
   return (
@@ -169,7 +169,7 @@ const ScanLogo = () => {
               <div className="col-md-1">
                 <div className="row">
                   <button
-                    className={`btn btn-${recording ? "info" : "success"} me-3`}
+                    className={`btn btn-sm btn-${recording ? "info" : "success"} me-3`}
                     onClick={() => scan()}
                     title="Scan"
                   >
@@ -186,8 +186,9 @@ const ScanLogo = () => {
                       className="fa-solid fa-magnifying-glass"
                     ></motion.i>
                   </button>
+                  <CameraSwitch />
                   <button
-                    className="btn btn-secondary me-3"
+                    className="btn btn-sm btn-secondary me-3"
                     onClick={() => {
                       setPreview(false);
                     }}
@@ -196,7 +197,7 @@ const ScanLogo = () => {
                     <i className="fa-solid fa-arrows-rotate"></i>
                   </button>
                   <button
-                    className="btn btn-primary me-3"
+                    className="btn btn-sm btn-primary me-3"
                     onClick={() =>
                       videoSource ? setPreview(true) : setPreview(false)
                     }
