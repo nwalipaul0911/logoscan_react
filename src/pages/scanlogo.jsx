@@ -35,7 +35,7 @@ const ScanLogo = () => {
       setVideoSource(videoUrl);
       sendFile();
     }
-  }, [recordedChunks, category, product, brand]);
+  }, [recordedChunks]);
   const scan = () => {
     const mediaStream = webcamRef.current.stream;
     const recorder = new MediaRecorder(mediaStream);
@@ -190,7 +190,6 @@ const ScanLogo = () => {
                     className="btn btn-secondary me-3"
                     onClick={() => {
                       setPreview(false);
-                      setRecordedChunks(null);
                     }}
                     title="Rescan"
                   >
