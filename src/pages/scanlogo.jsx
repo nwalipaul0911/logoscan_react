@@ -9,7 +9,6 @@ import { modify } from "../slices/resultSlice";
 import { modifyChunks } from "../slices/chunkSLice";
 import { Link } from "react-router-dom";
 import Dropdown from "../components/dropdown";
-import CameraSwitch from "../components/cameraSwitch";
 const ScanLogo = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
@@ -22,6 +21,7 @@ const ScanLogo = () => {
   const [product, setProduct] = useState({});
   const [brand, setBrand] = useState({});
   const [maskShape, setmaskShape] = useState("square");
+  const [selectedCam, setSelectedCam] = useState('user')
   const [x, setX] = useState(50);
   const [y, setY] = useState(50);
   const [preview, setPreview] = useState(false);
@@ -114,7 +114,7 @@ const ScanLogo = () => {
                 <video src={videoSource} controls></video>
               ) : (
                 <>
-                  <Webcam ref={webcamRef} />
+                  <Webcam ref={webcamRef} videoConstraints={{facingMode : selectedCam}}/>
                   <Mask
                     parentRef={constRef}
                     maskShape={maskShape}
@@ -129,7 +129,11 @@ const ScanLogo = () => {
             <div className="container-fluid">
               <div className="d-flex my-3" style={{ overflowX: "scroll" }}>
                 {results?.map((image, index) => (
-                  <Link key={index} to={`/reviews/${image}`} className="col-4 mx-2">
+                  <Link
+                    key={index}
+                    to={`/reviews/${image}`}
+                    className="col-4 mx-2"
+                  >
                     <img
                       src={`${url}image/${image}`}
                       alt=""
@@ -169,7 +173,9 @@ const ScanLogo = () => {
               <div className="col-md-1">
                 <div className="row">
                   <button
-                    className={`btn btn-sm btn-${recording ? "info" : "success"} me-3`}
+                    className={`btn btn-sm btn-${
+                      recording ? "info" : "success"
+                    } me-3`}
                     onClick={() => scan()}
                     title="Scan"
                   >
@@ -186,7 +192,17 @@ const ScanLogo = () => {
                       className="fa-solid fa-magnifying-glass"
                     ></motion.i>
                   </button>
-                  <CameraSwitch />
+                  <button
+                    className="btn btn-sm btn-dark me-3"
+                    onClick={() =>
+                      setSelectedCam(
+                        selectedCam == "user" ? "environment" : "user"
+                      )
+                    }
+                    title="Switch camera"
+                  >
+                    <i className="fa-solid fa-camera-rotate"></i>
+                  </button>
                   <button
                     className="btn btn-sm btn-secondary me-3"
                     onClick={() => {
