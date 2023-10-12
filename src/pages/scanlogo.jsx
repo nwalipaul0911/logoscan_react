@@ -115,6 +115,7 @@ const ScanLogo = () => {
               ) : (
                 <>
                   <Webcam
+                    audio={false}
                     ref={webcamRef}
                     videoConstraints={{ facingMode: selectedCam }}
                   />

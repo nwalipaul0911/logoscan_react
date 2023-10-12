@@ -34,6 +34,10 @@ const UploadAdmin = () => {
   const clearCapture = () => {
     setSelectedImage(null);
     setImageData(null);
+    setMessage(null);
+    setCategory("");
+    setProduct("");
+    setBrand("");
   };
 
   const sendFile = async () => {
@@ -55,10 +59,9 @@ const UploadAdmin = () => {
     fileInputRef.current.click();
   };
   const handleForm = (event, func) => {
-    let { name, value } = event.target;
+    let value = event.target.value;
     func(value);
   };
-
   return (
     <>
       <div className="container mt-3">
@@ -83,12 +86,23 @@ const UploadAdmin = () => {
 
         <div className="row">
           <div className="col-md-6">
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              videoConstraints={{ facingMode: selectedCam }}
-            />
+            {selectedImage ? (
+              <div className="img-fluid">
+                <img
+                  src={selectedImage}
+                  alt=""
+                  className="img-fluid"
+                  style={{ aspectRatio: 3 / 2 }}
+                />
+              </div>
+            ) : (
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                videoConstraints={{ facingMode: selectedCam }}
+              />
+            )}
           </div>
 
           <div className="col-md-6">
@@ -121,13 +135,7 @@ const UploadAdmin = () => {
                     >
                       <i className="fa-solid fa-camera-rotate"></i>
                     </button>
-                    <button
-                      className="btn btn-sm btn-success"
-                      onClick={sendFile}
-                      title="Upload"
-                    >
-                      <i className="fa-solid fa-upload"></i>
-                    </button>
+
                     <button
                       className="btn btn-sm btn-secondary"
                       title="Recapture"
@@ -138,61 +146,60 @@ const UploadAdmin = () => {
                   </div>
                 </div>
                 <div className="col-md-10">
-                  <div className="py-2">
-                    <input
-                      type="text"
-                      name="category"
-                      id="category"
-                      placeholder="Category"
-                      className="form-control"
-                      value={category}
-                      onChange={(e) => handleForm(e, setCategory)}
-                    />
+                  <div className="row">
+                    <div className="py-2">
+                      <input
+                        type="text"
+                        name="category"
+                        id="category"
+                        placeholder="Category"
+                        className="form-control"
+                        value={category}
+                        onChange={(e) => handleForm(e, setCategory)}
+                      />
+                    </div>
+                    <div className="py-2">
+                      <input
+                        type="text"
+                        name="product"
+                        id="product"
+                        placeholder="Product"
+                        className="form-control"
+                        value={product}
+                        onChange={(e) => handleForm(e, setProduct)}
+                      />
+                    </div>
+                    <div className="py-2">
+                      <input
+                        type="text"
+                        name="brand"
+                        id="brand"
+                        placeholder="Brand"
+                        className="form-control"
+                        value={brand}
+                        onChange={(e) => handleForm(e, setBrand)}
+                      />
+                    </div>
+                    <div className="py-2">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        name="image"
+                        id="image"
+                        placeholder="image"
+                        className="form-control"
+                        style={{ display: "none" }}
+                        onChange={(e) => handleFileChange(e)}
+                      />
+                    </div>
+                    <button
+                      className="btn btn-sm btn-success col"
+                      onClick={sendFile}
+                      title="Upload"
+                    >
+                      Upload <i className="fa-solid fa-upload"></i>
+                    </button>
                   </div>
-                  <div className="py-2">
-                    <input
-                      type="text"
-                      name="product"
-                      id="product"
-                      placeholder="Product"
-                      className="form-control"
-                      value={product}
-                      onChange={(e) => handleForm(e, setProduct)}
-                    />
-                  </div>
-                  <div className="py-2">
-                    <input
-                      type="text"
-                      name="brand"
-                      id="brand"
-                      placeholder="Brand"
-                      className="form-control"
-                      value={brand}
-                      onChange={(e) => handleForm(e, setBrand)}
-                    />
-                  </div>
-                  <div className="py-2">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      name="image"
-                      id="image"
-                      placeholder="image"
-                      className="form-control"
-                      style={{ display: "none" }}
-                      onChange={(e) => handleFileChange(e)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center py-3">
-                <div className="col-6">
-                  <img
-                    src={selectedImage}
-                    alt=""
-                    className="img-fluid"
-                    style={{ aspectRatio: 3 / 2 }}
-                  />
                 </div>
               </div>
             </div>
