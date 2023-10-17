@@ -5,12 +5,11 @@ import Footer from "./components/footer";
 function App() {
   
   return (
-    <div style={{height: '100vh'}} className="position-relative">
+    <div style={{height: '100vh'}} className="position-relative bg-danger">
       <Navbar />
       <div className="mt-0">
         <Outlet />
       </div>
-      <Footer />
     </div>
   );
 }
