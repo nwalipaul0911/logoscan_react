@@ -14,13 +14,12 @@ const Navbar = () => {
                 <i className="fa-solid fa-home"></i>
               </NavLink>
             </li>
-            <li className="nav-item ">
+            <li className="nav-item " onClick={()=>navigate(-1)}>
               <i className="fa-solid fa-arrow-left text-light" ></i>
             </li>
-            <li className="nav-item ">
-              <NavLink to="/" className="nav-link text-light">
-                <i className="fa-solid fa-paperclip"></i>
-              </NavLink>
+            <li className="nav-item " onClick={()=>navigate(+1)}>
+                <i className="fa-solid fa-arrow-right text-light"></i>
+              
             </li>
             <li className="nav-item ">
               <NavLink to="/" className="nav-link text-light">

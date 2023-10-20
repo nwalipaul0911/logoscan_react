@@ -50,6 +50,7 @@ const Login = () => {
             className="form-control"
             value={user.username}
             onChange={(e) => setUser({ ...user, username: e.target.value })}
+            required
           />
         </div>
         <div className="py-3 col-12">
@@ -61,6 +62,7 @@ const Login = () => {
             className="form-control"
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
+            required
           />
         </div>
         <div className="py-3 col-12">
