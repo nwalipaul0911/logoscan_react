@@ -12,6 +12,7 @@ import resultReducer from "./slices/resultSlice.js";
 import chunkReducer from "./slices/chunkSLice.js";
 import UploadAdmin from "./pages/upload_admin";
 import ReviewsPage from "./pages/ReviewsPage";
+import User from "./pages/user";
 
 const store = configureStore({
   reducer: {
@@ -28,6 +29,10 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "user",
+        element: <User />,
       },
       {
         path: "login",

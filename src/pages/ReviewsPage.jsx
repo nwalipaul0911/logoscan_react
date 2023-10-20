@@ -1,35 +1,29 @@
-import React, {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams, useLoaderData } from "react-router-dom";
 
 const ReviewsPage = () => {
-    const url = import.meta.env.VITE_BACKEND_API_URL;
-    const [reviews, setReviews] = useState([])
-    const imageId = useParams().imageId;
+  const url = import.meta.env.VITE_BACKEND_API_URL;
+  const [reviews, setReviews] = useState([]);
+  const imageId = useParams().imageId;
+  const navigate = useNavigate()
 
-    useEffect(() => {
-        const ReviewsAPIUrls = `${url}/api/reviews/?image_id=${imageId}`
-        axios.get(ReviewsAPIUrls)
-            .then((response) => {
-                setReviews(response.data.reviews);
-            })
-            .catch((error) => {
-                console.error('Error fetching reviews: ', error)
-            })
-    }, [imageId])
-
-    return (
-        <div>
-            <h1>Reviews for Image{imageId}</h1>
-            <ul>
-                {reviews.map((review, index) => (
-                    <li key={index}>
-                        <p>{review.username}</p>
-                        <p>{review.feedback}</p>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    )
-}
-export default ReviewsPage
+  return (
+    <>
+      <Link to='/scanlogo' className="btn btn-sm btn-secondary">
+        <i className="fa-solid fa-arrow-left"></i>
+      </Link>
+      <div>
+        <h1>Reviews for Image{imageId}</h1>
+        <ul>
+          {reviews?.map((review, index) => (
+            <li key={index}>
+              <p>{review.username}</p>
+              <p>{review.feedback}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+};
+export default ReviewsPage;

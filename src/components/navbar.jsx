@@ -1,5 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import front_img from "../assets/ux-live.png";
+import samantha from '../assets/js4bqgt1.png'
+import './components.css'
 const Navbar = () => {
   const navigate = useNavigate();
   return (
@@ -12,15 +14,12 @@ const Navbar = () => {
                 <i className="fa-solid fa-home"></i>
               </NavLink>
             </li>
-            <li className="nav-item ">
-              <NavLink to="/" className="nav-link text-light">
-                <i className="fa-solid fa-right-from-bracket"></i>
-              </NavLink>
+            <li className="nav-item " onClick={()=>navigate(-1)}>
+              <i className="fa-solid fa-arrow-left text-light" ></i>
             </li>
-            <li className="nav-item ">
-              <NavLink to="/" className="nav-link text-light">
-                <i className="fa-solid fa-paperclip"></i>
-              </NavLink>
+            <li className="nav-item " onClick={()=>navigate(+1)}>
+                <i className="fa-solid fa-arrow-right text-light"></i>
+              
             </li>
             <li className="nav-item ">
               <NavLink to="/" className="nav-link text-light">
@@ -30,6 +29,11 @@ const Navbar = () => {
             <li className="nav-item ">
               <NavLink to="/" className="nav-link text-light">
                 <i className="fa-solid fa-gear"></i>
+              </NavLink>
+            </li>
+            <li className="nav-item ">
+              <NavLink to="/" className="nav-link text-light">
+                <img src={samantha} className="img-fluid nav-img" />
               </NavLink>
             </li>
             <li className="nav-item ">

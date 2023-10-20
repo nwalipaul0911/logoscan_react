@@ -9,21 +9,6 @@ const Footer = () => {
             Home <i className="fa-solid fa-home"></i>
           </NavLink>
         </li>
-        <li className="nav-item ">
-          <NavLink to="login" className="nav-link text-light">
-            Login <i className="fa-solid fa-right-to-bracket"></i>
-          </NavLink>
-        </li>
-        <li className="nav-item ">
-          <NavLink to="/admin_upload" className="nav-link text-light">
-            Admin <i className="fa-solid fa-lock"></i>
-          </NavLink>
-        </li>
-        <li className="nav-item ">
-          <NavLink to="scanlogo" className="nav-link text-light">
-            Scan <i className="fa-solid fa-magnifying-glass"></i>
-          </NavLink>
-        </li>
       </ul>
     </div>
   );
