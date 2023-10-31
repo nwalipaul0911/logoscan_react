@@ -10,7 +10,7 @@ import Home from "./pages/home";
 import ScanLogo from "./pages/scanlogo";
 import resultReducer from "./slices/resultSlice.js";
 import chunkReducer from "./slices/chunkSLice.js";
-import UploadAdmin from "./pages/upload_admin";
+import Upload from "./pages/upload";
 import ReviewsPage from "./pages/ReviewsPage";
 import User from "./pages/user";
 
@@ -35,7 +35,7 @@ const routes = createBrowserRouter([
         element: <User />,
       },
       {
-        path: "login",
+        path: "login/:client",
         element: <Login />,
       },
       {
@@ -43,8 +43,8 @@ const routes = createBrowserRouter([
         element: <ScanLogo />,
       },
       {
-        path: "admin_upload",
-        element: <UploadAdmin />,
+        path: "upload/:client",
+        element: <Upload />,
       },
       {
         path: "reviews/:id",

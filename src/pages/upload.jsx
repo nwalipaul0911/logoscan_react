@@ -2,7 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import "./scanlogo.css";
 import { useSelector, useDispatch } from "react-redux";
-const UploadAdmin = () => {
+import { useParams } from "react-router-dom";
+
+const Upload = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
   const webcamRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -13,6 +15,7 @@ const UploadAdmin = () => {
   const [imageData, setImageData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [message, setMessage] = useState("");
+  const client = useParams().client
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -46,6 +49,7 @@ const UploadAdmin = () => {
     formData.append("category", category?.category);
     formData.append("product", product?.product);
     formData.append("brand", brand?.brand);
+    formData.append("flag", client);
     const res = await fetch(`${url}logo-upload-image/`, {
       method: "POST",
       body: formData,
@@ -210,4 +214,4 @@ const UploadAdmin = () => {
   );
 };
 
-export default UploadAdmin;
+export default Upload;

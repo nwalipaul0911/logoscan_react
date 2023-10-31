@@ -7,10 +7,11 @@ import Mask from "../components/mask";
 import { useSelector, useDispatch } from "react-redux";
 import { modify } from "../slices/resultSlice";
 import { modifyChunks } from "../slices/chunkSLice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Dropdown from "../components/dropdown";
 const ScanLogo = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
+  const navigate = useNavigate();
   const webcamRef = useRef(null);
   const constRef = useRef(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -24,6 +25,7 @@ const ScanLogo = () => {
   const [selectedCam, setSelectedCam] = useState("user");
   const [x, setX] = useState(50);
   const [y, setY] = useState(50);
+  const [prompt, setPrompt] = useState(false);
   const [preview, setPreview] = useState(false);
   const scanControls = useAnimation();
   const results = useSelector((state) => state.results.value);
@@ -31,7 +33,7 @@ const ScanLogo = () => {
 
   useEffect(() => {
     if (recordedChunks) {
-      let videoBlob = new Blob(recordedChunks, { type: "video/webm" });
+      let videoBlob = new Blob([recordedChunks], { type: "video/webm" });
       let videoUrl = URL.createObjectURL(videoBlob);
       setVideoSource(videoUrl);
       sendFile();
@@ -42,7 +44,7 @@ const ScanLogo = () => {
     const recorder = new MediaRecorder(mediaStream);
     recorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
-        dispatch(modifyChunks([event.data]));
+        dispatch(modifyChunks(event.data));
       }
     };
     setMediaRecorder(recorder);
@@ -61,7 +63,7 @@ const ScanLogo = () => {
   };
   const sendFile = async () => {
     const formData = new FormData();
-    formData.append("video", recordedChunks[0]);
+    formData.append("video", [recordedChunks][0]);
     formData.append("category", category.category);
     formData.append("product", product.product);
     formData.append("brand", brand.brand);
@@ -70,7 +72,8 @@ const ScanLogo = () => {
       body: formData,
     });
     const data = await res.json();
-    dispatch(modify(data.message));
+    data.message && dispatch(modify(data.message));
+    data.images ? setPrompt(!prompt) : null;
   };
 
   return (
@@ -132,44 +135,68 @@ const ScanLogo = () => {
           <div className="mx-auto controls-container col-md-6">
             <div className="container-fluid">
               <div className="d-flex my-3" style={{ overflowX: "scroll" }}>
-                {results?.map((image, index) => (
-                  <Link
-                    key={index}
-                    to={`/reviews/${image}`}
-                    className="col-4 mx-2"
-                  >
-                    <img
-                      src={`${url}image/${image}`}
-                      alt=""
-                      // onClick={handleLogoClick(image.imageId)}
-                      className="img-fluid rounded shadow"
-                    />
-                  </Link>
-                ))}
-                {!results.length && (
-                  <div className=" row my-3">
-                    <div className="col-4">
-                      <img
-                        src={placeholder}
-                        alt=""
-                        className="img-fluid rounded shadow"
-                      />
+                {prompt ? (
+                  <>
+                    <div className="alert">
+                      <i>No matching logo found</i>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => navigate("/login/user")}
+                      >
+                        Upload
+                      </button>
+                      <button
+                        className="btn btn-sm btn-secondary"
+                        onClick={() => setPrompt(!prompt)}
+                      >
+                        Close
+                      </button>
                     </div>
-                    <div className="col-4">
-                      <img
-                        src={placeholder}
-                        alt=""
-                        className="img-fluid rounded shadow"
-                      />
-                    </div>
-                    <div className="col-4">
-                      <img
-                        src={placeholder}
-                        alt=""
-                        className="img-fluid rounded shadow"
-                      />
-                    </div>
-                  </div>
+                  </>
+                ) : (
+                  <>
+                    {Object.keys(results)?.map((image, index) => (
+                      <Link
+                        key={index}
+                        to={`/reviews/${image}`}
+                        className="col-4 mx-2 text-light"
+                        style={{textDecoration: 'none'}}
+                      >
+                        <img
+                          src={`${url}image/${image}`}
+                          alt=""
+                          className="img-fluid rounded shadow"
+                          style={{aspectRatio: 1/1}}
+                        />
+                        {results[image]}
+                      </Link>
+                    ))}
+                    {!Object.keys(results).length && (
+                      <div className=" row my-3">
+                        <div className="col-4">
+                          <img
+                            src={placeholder}
+                            alt=""
+                            className="img-fluid rounded shadow"
+                          />
+                        </div>
+                        <div className="col-4">
+                          <img
+                            src={placeholder}
+                            alt=""
+                            className="img-fluid rounded shadow"
+                          />
+                        </div>
+                        <div className="col-4">
+                          <img
+                            src={placeholder}
+                            alt=""
+                            className="img-fluid rounded shadow"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>

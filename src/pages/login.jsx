@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Login = () => {
   const url = import.meta.env.VITE_BACKEND_API_URL;
@@ -7,6 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(formInput);
   const [error, setError] = useState(null);
+  const client = useParams().client
   useEffect(() => {
     let errorTime = setTimeout(() => {
       setError(null);
@@ -20,13 +21,13 @@ const Login = () => {
     let formData = new FormData();
     formData.append("username", user["username"]);
     formData.append("password", user["password"]);
-    let res = await fetch(`${url}upload-logo/admin/login/`, {
+    let res = await fetch(`${url}login/`, {
       method: "POST",
       body: formData,
     });
     let data = await res.json();
     if (data.authenticated) {
-      navigate("/admin_upload");
+      navigate(`/upload/${client}`);
     } else if (!data.authenticated) {
       setUser(formInput);
       setError("Wrong credentials");
