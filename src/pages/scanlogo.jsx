@@ -16,8 +16,8 @@ const ScanLogo = () => {
   const constRef = useRef(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recording, setRecording] = useState(false);
-  const recordedChunks = useSelector((state) => state.chunks.value);
-  const [videoSource, setVideoSource] = useState(null);
+  const [recordedChunks, setRecordedChunks] = useState(null);
+  const videoSource = useSelector((state) => state.chunks.value);
   const [category, setCategory] = useState({});
   const [product, setProduct] = useState({});
   const [brand, setBrand] = useState({});
@@ -33,10 +33,10 @@ const ScanLogo = () => {
 
   useEffect(() => {
     if (recordedChunks) {
-      let videoBlob = new Blob([recordedChunks], { type: "video/webm" });
+      let videoBlob = new Blob(recordedChunks, { type: "video/webm" });
       let videoUrl = URL.createObjectURL(videoBlob);
-      setVideoSource(videoUrl);
       sendFile();
+      dispatch(modifyChunks(videoUrl));
     }
   }, [recordedChunks]);
   const scan = () => {
@@ -44,7 +44,7 @@ const ScanLogo = () => {
     const recorder = new MediaRecorder(mediaStream);
     recorder.ondataavailable = (event) => {
       if (event.data.size > 0) {
-        dispatch(modifyChunks(event.data));
+        setRecordedChunks([event.data]);
       }
     };
     setMediaRecorder(recorder);
@@ -63,7 +63,7 @@ const ScanLogo = () => {
   };
   const sendFile = async () => {
     const formData = new FormData();
-    formData.append("video", [recordedChunks][0]);
+    formData.append("video", recordedChunks[0]);
     formData.append("category", category.category);
     formData.append("product", product.product);
     formData.append("brand", brand.brand);
@@ -160,13 +160,13 @@ const ScanLogo = () => {
                         key={index}
                         to={`/reviews/${image}`}
                         className="col-4 mx-2 text-light"
-                        style={{textDecoration: 'none'}}
+                        style={{ textDecoration: "none" }}
                       >
                         <img
                           src={`${url}image/${image}`}
                           alt=""
                           className="img-fluid rounded shadow"
-                          style={{aspectRatio: 1/1}}
+                          style={{ aspectRatio: 1 / 1 }}
                         />
                         {results[image]}
                       </Link>
