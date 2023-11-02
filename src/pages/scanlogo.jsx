@@ -106,11 +106,11 @@ const ScanLogo = () => {
           </li>
         </ul>
       </div>
-      <div className="container" style={{ height: "fit-content" }}>
-        <div className="row g-0">
+      <div className="container-fluid">
+        <div className="row">
           <div className="col-md-6">
             <div
-              className="position-relative view-container mx-auto bg-dark"
+              className="position-relative bg-dark"
               ref={constRef}
             >
               {preview ? (
@@ -168,7 +168,7 @@ const ScanLogo = () => {
                           className="img-fluid rounded shadow"
                           style={{ aspectRatio: 1 / 1 }}
                         />
-                        {results[image]}
+                        {results[image].toFixed(3)}
                       </Link>
                     ))}
                     {!Object.keys(results).length && (
